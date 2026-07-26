@@ -1028,8 +1028,12 @@
 <script>
 (function(){
   // ---------- 디버그 로그: 화면 어디서든 상태를 눈으로 볼 수 있게 ----------
+  // 개발/디버깅용 창. 실제 서비스에서는 아래 플래그만 false로 꺼둠 (코드는 그대로 유지, 필요하면 true로 되돌리면 됨)
+  const DEBUG_ENABLED = false;
   const panel = document.getElementById('debug-panel');
+  if (!DEBUG_ENABLED && panel) panel.style.display = 'none';
   window.dbg = function(msg) {
+    if (!DEBUG_ENABLED) return;
     const line = document.createElement('div');
     line.textContent = '· ' + msg;
     panel.appendChild(line);

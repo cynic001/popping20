@@ -23,11 +23,11 @@
   }
   #bgm-toggle {
     position: absolute; top: max(10px, env(safe-area-inset-top)); right: 10px;
-    z-index: 999; width: 30px; height: 30px; border-radius: 10px;
+    z-index: 999; width: 56px; height: 56px; border-radius: 16px;
     background: rgba(255,255,255,0.55); border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
-  #bgm-toggle svg { width: 15px; height: 15px; }
+  #bgm-toggle svg { width: 28px; height: 28px; }
 
   .record-modal {
     position: absolute; inset: 0; z-index: 2000;
@@ -249,10 +249,10 @@
     display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-shrink: 0;
   }
   .icon-btn {
-    width: 30px; height: 30px; border-radius: 9px; background: rgba(255,255,255,0.6);
+    width: 56px; height: 56px; border-radius: 16px; background: rgba(255,255,255,0.6);
     border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;
   }
-  .icon-btn svg { width: 15px; height: 15px; }
+  .icon-btn svg { width: 28px; height: 28px; }
   .panel-title { font-weight: 800; color: #3A3944; font-size: 17px; font-family: 'Baloo 2', sans-serif; }
   .panel-sub { text-align: center; font-size: 13px; color: #5D5C61; opacity: 0.65; margin-bottom: 16px; }
 
@@ -436,6 +436,22 @@
   @keyframes burstring {
     0% { opacity: 0.7; transform: scale(0.3); }
     100% { opacity: 0; transform: scale(2.4); }
+  }
+
+  .countdown-overlay {
+    position: absolute; inset: 0; z-index: 15;
+    background: rgba(255,251,247,0.75);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .countdown-overlay.hidden { display: none; }
+  .countdown-number {
+    font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 90px; color: #3A3944;
+    animation: countdownPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes countdownPop {
+    0% { transform: scale(0.3); opacity: 0; }
+    40% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
   }
 
   .result-overlay {
@@ -627,7 +643,7 @@
         로그아웃
       </button>
       <div class="hub-link">
-        <a href="https://pgsk.duckdns.org:1122" id="hub-anchor">chaechae ARCADE 허브로</a>
+        <a href="http://pgsk.duckdns.org:1122" id="hub-anchor">chaechae ARCADE 허브로</a>
       </div>
     </div>
   </div>
@@ -640,7 +656,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="#5D5C61" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         </button>
         <div class="panel-title">모드 선택</div>
-        <div style="width:30px;"></div>
+        <div style="width:56px;"></div>
       </div>
       <div class="panel-sub">숫자 20개를 가장 빨리, 가장 많이!</div>
 
@@ -701,7 +717,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="#5D5C61" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         </button>
         <div class="panel-title">닉네임</div>
-        <div style="width:30px;"></div>
+        <div style="width:56px;"></div>
       </div>
       <div class="stub-body">
         <p>기록에 표시될 닉네임을 입력해주세요</p>
@@ -719,7 +735,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="#5D5C61" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         </button>
         <div class="panel-title">전체 기록</div>
-        <div style="width:30px;"></div>
+        <div style="width:56px;"></div>
       </div>
       <div class="stub-body" id="record-body"></div>
     </div>
@@ -743,6 +759,9 @@
         </div>
       </div>
       <div class="game-field" id="game-field">
+        <div class="countdown-overlay hidden" id="countdown-overlay">
+          <div class="countdown-number" id="countdown-number">3</div>
+        </div>
         <div class="result-overlay hidden" id="result-overlay">
           <div class="result-label">CLEAR!</div>
           <div class="result-time" id="result-time">00:00.0</div>
@@ -787,6 +806,9 @@
         </div>
       </div>
       <div class="survival-field" id="survival-field">
+        <div class="countdown-overlay hidden" id="countdown-overlay-survival">
+          <div class="countdown-number" id="countdown-number-survival">3</div>
+        </div>
         <div class="result-overlay hidden" id="result-overlay-survival">
           <div class="survival-result-label">GAME OVER</div>
           <div class="survival-result-combo" id="survival-result-combo">0</div>
@@ -818,6 +840,9 @@
   <!-- 반반 분할 (2인, 가로) -->
   <div id="scene-split" class="scene hidden duo-scene">
     <div class="split-wrap">
+      <div class="countdown-overlay hidden" id="countdown-overlay-split" style="z-index:20;">
+        <div class="countdown-number" id="countdown-number-split">3</div>
+      </div>
       <button class="pause-btn split-pause" id="pause-btn-split">
         <svg viewBox="0 0 24 24" fill="#5D5C61"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
       </button>
@@ -879,6 +904,9 @@
         </div>
       </div>
       <div class="steal-field" id="steal-field">
+        <div class="countdown-overlay hidden" id="countdown-overlay-steal">
+          <div class="countdown-number" id="countdown-number-steal">3</div>
+        </div>
         <div class="result-overlay hidden" id="result-overlay-steal">
           <div class="steal-result-label" id="steal-result-label">1P 승리!</div>
           <div class="steal-result-sub" id="steal-result-sub">8 : 5</div>
@@ -981,10 +1009,21 @@
     }
   }
 
+  // 닉네임(한글 포함)을 Firebase 이메일 local-part로 안전하게 변환.
+  // encodeURIComponent는 %EC%B1%84 같은 '%' 투성이 문자열이 되어 Firebase가
+  // 유효하지 않은 이메일로 거부하는 문제가 있어서, UTF-8 바이트를 16진수로 바꿔
+  // 영문/숫자만 남긴 값으로 변환함 (닉네임이 같으면 항상 같은 값 -> 재로그인 가능).
+  function nicknameToEmailLocal(nickname) {
+    const bytes = new TextEncoder().encode(nickname);
+    let hex = 'u';
+    bytes.forEach(b => { hex += b.toString(16).padStart(2, '0'); });
+    return hex;
+  }
+
   // 닉네임 -> Firebase 로그인 (계정 없으면 자동 생성)
   window.firebaseSignIn = function(nickname, onDone) {
     if (!window.firebaseReady) { onDone && onDone(false); return; }
-    const email = encodeURIComponent(nickname).toLowerCase() + '@' + FAKE_EMAIL_DOMAIN;
+    const email = nicknameToEmailLocal(nickname) + '@' + FAKE_EMAIL_DOMAIN;
     const password = FIXED_PW_PREFIX + nickname;
     window.firebaseAuth.signInWithEmailAndPassword(email, password)
       .then(cred => { window.firebaseUser = cred.user; onDone && onDone(true); })
@@ -1086,6 +1125,111 @@
     } catch (e) { return null; }
   }
 
+  // 카운트다운(3,2,1,시작) 틱 사운드
+  window.playCountdownTick = function(isGo) {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.value = 0.32;
+      master.connect(ctx.destination);
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = isGo ? 880 : 600;
+      const dur = isGo ? 0.26 : 0.13;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.5, now + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      osc.connect(g);
+      g.connect(master);
+      osc.start(now);
+      osc.stop(now + dur + 0.05);
+    } catch (e) {}
+  };
+
+  // 일반 UI 버튼 클릭음 (가볍고 짧은 톡 소리)
+  window.playClickSound = function() {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.value = 0.28;
+      master.connect(ctx.destination);
+      const osc = ctx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(500, now);
+      osc.frequency.exponentialRampToValueAtTime(320, now + 0.07);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.45, now + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+      osc.connect(g);
+      g.connect(master);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } catch (e) {}
+  };
+
+  // 신기록 달성 환호성 (짧은 상승 팡파르)
+  window.playFanfareSound = function() {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.value = 0.32;
+      master.connect(ctx.destination);
+      const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5 E5 G5 C6 E6
+      notes.forEach((freq, i) => {
+        const t = now + i * 0.075;
+        const osc = ctx.createOscillator();
+        osc.type = 'square';
+        osc.frequency.value = freq;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.28, t + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
+        osc.connect(g);
+        g.connect(master);
+        osc.start(t);
+        osc.stop(t + 0.35);
+      });
+    } catch (e) {}
+  };
+
+  // 타이틀 로고가 통통 튀며 자리잡는 순간의 "짠!" 효과음 (밝은 상승 아르페지오)
+  window.playLogoRevealSound = function() {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.value = 0.35;
+      master.connect(ctx.destination);
+
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 - E5 - G5 - C6
+      notes.forEach((freq, i) => {
+        const t = now + i * 0.09;
+        const osc = ctx.createOscillator();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.5, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+        osc.connect(g);
+        g.connect(master);
+        osc.start(t);
+        osc.stop(t + 0.4);
+      });
+    } catch (e) {
+      // 오디오 미지원 환경은 조용히 무시
+    }
+  };
+
   window.playPopSound = function() {
     const ctx = getAudioCtx();
     if (!ctx) return;
@@ -1162,7 +1306,7 @@
     if (!ctx) return;
 
     const master = ctx.createGain();
-    master.gain.value = 0.05; // 아주 잔잔하게
+    master.gain.value = 0.14; // 잔잔하되 실제로 들리는 정도
     const filter = ctx.createBiquadFilter();
     filter.type = 'lowpass';
     filter.frequency.value = 900;
@@ -1237,9 +1381,19 @@
   };
   window.isBgmOn = function() { return bgmOn; };
 
-  // 첫 사용자 제스처(탭/클릭) 때 자동으로 배경음악 시작 (설정이 꺼져있지 않다면)
+  // 타이틀 로고 등장음: 자동재생이 허용되는 환경이면 바로, 막혀있으면 첫 터치 때 재생 (중복 방지)
+  let logoRevealPlayed = false;
+  function tryPlayLogoReveal() {
+    if (logoRevealPlayed) return;
+    logoRevealPlayed = true;
+    window.playLogoRevealSound();
+  }
+  setTimeout(tryPlayLogoReveal, 780); // 로고가 통통 튀며 자리잡는 타이밍
+
+  // 첫 사용자 제스처(탭/클릭) 때 자동으로 배경음악 시작 (설정이 꺼져있지 않다면) + 로고 등장음 폴백
   function firstGestureStartBgm() {
     if (bgmOn) startBgm();
+    tryPlayLogoReveal();
     document.removeEventListener('pointerdown', firstGestureStartBgm);
   }
   document.addEventListener('pointerdown', firstGestureStartBgm);
@@ -1423,6 +1577,13 @@
   const sceneSteal = document.getElementById('scene-steal');
   const allScenes = [sceneTitle, sceneMode, sceneNickname, sceneRecord, sceneGame, sceneSurvival, sceneSplit, sceneSteal];
 
+  // ---------- 일반 UI 버튼 클릭음 (숫자 버튼은 기존 퐁 소리를 그대로 사용) ----------
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('button');
+    if (!el || el.classList.contains('num-btn')) return;
+    if (window.playClickSound) window.playClickSound();
+  }, true);
+
   function showScene(scene) {
     allScenes.forEach(s => s.classList.add('hidden'));
     scene.classList.remove('hidden');
@@ -1439,6 +1600,32 @@
   }
 
   // ---------- 공용 파티클 헬퍼 (여러 모드에서 재사용) ----------
+  // ---------- 공용 3-2-1 카운트다운 (여러 모드에서 재사용) ----------
+  function runCountdownOn(overlayId, numberId, onDone) {
+    const overlay = document.getElementById(overlayId);
+    const numberEl = document.getElementById(numberId);
+    if (!overlay || !numberEl) { onDone(); return; }
+    const sequence = ['3', '2', '1', '시작!'];
+    let i = 0;
+    overlay.classList.remove('hidden');
+
+    function showNext() {
+      if (i >= sequence.length) {
+        overlay.classList.add('hidden');
+        onDone();
+        return;
+      }
+      numberEl.textContent = sequence[i];
+      numberEl.style.animation = 'none';
+      void numberEl.offsetWidth;
+      numberEl.style.animation = '';
+      if (window.playCountdownTick) window.playCountdownTick(i === sequence.length - 1);
+      i++;
+      setTimeout(showNext, 650);
+    }
+    showNext();
+  }
+
   function spawnBurstGeneric(el, container, color) {
     const cx = el.offsetLeft + el.offsetWidth / 2;
     const cy = el.offsetTop + el.offsetHeight / 2;
@@ -1702,6 +1889,8 @@
   // ---------- 타임 어택 엔진 ----------
   const timeAttack = (function(){
     const field = document.getElementById('game-field');
+    const countdownOverlay = document.getElementById('countdown-overlay');
+    const countdownNumber = document.getElementById('countdown-number');
     const timerEl = document.getElementById('game-timer');
     const timerRing = document.getElementById('timer-ring');
     const paceLabel = document.getElementById('pace-label');
@@ -1905,6 +2094,7 @@
       if (!prevBest || elapsed < prevBest) {
         safeStorage.set(key, elapsed);
         bestText = '🎉 신기록이에요!';
+        if (window.playFanfareSound) window.playFanfareSound();
       } else {
         bestText = '최고 기록: ' + formatTime(prevBest);
       }
@@ -1915,19 +2105,7 @@
       overlay.classList.remove('hidden');
     }
 
-    function start(nick) {
-      dbg('timeAttack.start 진입: ' + nick);
-      nickname = nick;
-      finished = false;
-      paused = false;
-      expected = 1;
-      bestTime = parseFloat(safeStorage.get('popping20_best_timeattack_' + nick)) || null;
-      overlay.classList.add('hidden');
-      pauseOverlay.classList.add('hidden');
-      updateProgress();
-      timerEl.textContent = '00:00.0';
-      setTension('calm');
-      clearInterval(timerHandle);
+    function beginRound() {
       try {
         layoutNumbers();
       } catch (err) {
@@ -1939,6 +2117,46 @@
       }
       startTime = performance.now();
       timerHandle = setInterval(tick, 100);
+    }
+
+    function runCountdown(onDone) {
+      const sequence = ['3', '2', '1', '시작!'];
+      let i = 0;
+      countdownOverlay.classList.remove('hidden');
+
+      function showNext() {
+        if (i >= sequence.length) {
+          countdownOverlay.classList.add('hidden');
+          onDone();
+          return;
+        }
+        countdownNumber.textContent = sequence[i];
+        countdownNumber.style.animation = 'none';
+        void countdownNumber.offsetWidth;
+        countdownNumber.style.animation = '';
+        if (window.playCountdownTick) window.playCountdownTick(i === sequence.length - 1);
+        i++;
+        setTimeout(showNext, 650);
+      }
+      showNext();
+    }
+
+    function start(nick) {
+      dbg('timeAttack.start 진입: ' + nick);
+      nickname = nick;
+      finished = false;
+      paused = false;
+      expected = 1;
+      bestTime = parseFloat(safeStorage.get('popping20_best_timeattack_' + nick)) || null;
+      overlay.classList.add('hidden');
+      pauseOverlay.classList.add('hidden');
+      countdownOverlay.classList.add('hidden');
+      field.querySelectorAll('.num-btn').forEach(n => n.remove());
+      updateProgress();
+      timerEl.textContent = '00:00.0';
+      setTension('calm');
+      clearInterval(timerHandle);
+      runCountdown(beginRound);
     }
 
     function pauseGame() {
@@ -2164,6 +2382,7 @@
       if (!prevBest || maxCombo > prevBest) {
         safeStorage.set(key, maxCombo);
         bestText = '🎉 신기록이에요!';
+        if (window.playFanfareSound) window.playFanfareSound();
       } else {
         bestText = '최고 콤보: ' + prevBest;
       }
@@ -2184,7 +2403,7 @@
       overlay.classList.add('hidden');
       pauseOverlay.classList.add('hidden');
       clearCurrent();
-      spawnNumber();
+      runCountdownOn('countdown-overlay-survival', 'countdown-number-survival', spawnNumber);
     }
 
     function pauseGame() {
@@ -2325,8 +2544,12 @@
       count2El.textContent = '0 / 20';
       overlay.classList.add('hidden');
       pauseOverlay.classList.add('hidden');
-      layoutHalf(field1, coral);
-      layoutHalf(field2, mint);
+      field1.querySelectorAll('.num-btn').forEach(n => n.remove());
+      field2.querySelectorAll('.num-btn').forEach(n => n.remove());
+      runCountdownOn('countdown-overlay-split', 'countdown-number-split', () => {
+        layoutHalf(field1, coral);
+        layoutHalf(field2, mint);
+      });
     }
 
     function pauseGame() {
@@ -2462,7 +2685,8 @@
       score2El.textContent = '0 / 20';
       overlay.classList.add('hidden');
       pauseOverlay.classList.add('hidden');
-      layoutNumbers();
+      field.querySelectorAll('.num-btn').forEach(n => n.remove());
+      runCountdownOn('countdown-overlay-steal', 'countdown-number-steal', layoutNumbers);
     }
 
     function pauseGame() {

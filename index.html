@@ -643,7 +643,7 @@
         로그아웃
       </button>
       <div class="hub-link">
-        <a href="http://pgsk.duckdns.org:1122" id="hub-anchor">chaechae ARCADE 허브로</a>
+        <a href="https://pgsk.duckdns.org:1122" id="hub-anchor">chaechae ARCADE 허브로</a>
       </div>
     </div>
   </div>
@@ -1554,6 +1554,22 @@
   }
   window.updateLogoutVisibility = updateLogoutVisibility;
   updateLogoutVisibility();
+
+  // ---------- 5분간 조작 없으면 자동 로그아웃 ----------
+  const AUTO_LOGOUT_MS = 5 * 60 * 1000;
+  let lastActivityAt = Date.now();
+  ['pointerdown', 'keydown', 'touchstart'].forEach(evt => {
+    document.addEventListener(evt, () => { lastActivityAt = Date.now(); }, true);
+  });
+  setInterval(() => {
+    const nick = safeStorage.get('popping20_nickname');
+    if (nick && Date.now() - lastActivityAt > AUTO_LOGOUT_MS) {
+      safeStorage.set('popping20_nickname', '');
+      updateLogoutVisibility();
+      lastActivityAt = Date.now(); // 로그아웃 처리 후 타이머 리셋 (반복 트리거 방지)
+      dbg('5분 무활동으로 자동 로그아웃 처리됨');
+    }
+  }, 30000);
 
   sceneTitle.addEventListener('click', (e) => {
     if (hubAnchor.contains(e.target)) return; // 허브 링크는 별도 동작
